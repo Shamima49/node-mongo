@@ -36,9 +36,9 @@ const users = ['asad', 'sohana', 'rehana', 'selina', 'rohan', 'halim', 'nasir'];
 
 //})
 
-app.get('/fruits/banana', (req, res) => {
-    res.send({fruit:"banana", price: 20, quantity:1000});
-})
+// app.get('/fruits/banana', (req, res) => {
+//     res.send({fruit:"banana", price: 20, quantity:1000});
+// })
 
 app.get('/users/:id', (req, res) =>{
     const id = req.params.id;
@@ -51,7 +51,7 @@ app.get('/products', (req, res) => {
      client = new MongoClient(uri, { useNewUrlParser: true });
      client.connect(err => {
         const collection = client.db("onlineStore").collection("products");
-        collection.find({name:'laptop'}).limit(5).toArray((err, documents) =>{
+        collection.find().toArray((err, documents) =>{
             
             if(err){
                 console.log(err);
@@ -70,14 +70,11 @@ app.get('/products', (req, res) => {
 
 // post
 app.post('/addProduct', (req, res) => {
-    //console.log('data received', req.body);
-
-    // save to database
     const product = req.body;
     client = new MongoClient(uri, { useNewUrlParser: true });
     client.connect(err => {
         const collection = client.db("onlineStore").collection("products");
-        collection.insertOne(product, (err, result) =>{
+        collection.insert(product, (err, result) =>{
             if(err){
                 console.log(err);
                 res.status(500).send({message:err});
@@ -91,5 +88,5 @@ app.post('/addProduct', (req, res) => {
     
 })
 
-const port = process.env.PORT || 4000;
-app.listen(port, () => console.log('Listening to port 4000'));
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log('Listening to port 5000'));
